@@ -1,1 +1,1 @@
-# histoMap
+# Historical Map Retrieval
