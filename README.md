@@ -1,6 +1,7 @@
 # Historical Map Retrieval
+The workflow for historical map retrival is as following
 
-![The workflow for historical map retrival is as following](Screenshots/flow_chart.png)
+![flow_chart](Screenshots/flow_chart.png)
 
 ## Retrieve Map Using Tile Indexes
 
@@ -17,5 +18,6 @@ Run  `generate_wld_file` to generate corresponding world file and point file for
  
 QGIS can be used to view the geotiff file. 
 
-(Screenshots/Screenshot1.png)
-(Screenshots/Screenshot2.png)
+![Screenshot1](Screenshots/Screenshot1.png)
+
+![Screenshot2](Screenshots/Screenshot2.png)
