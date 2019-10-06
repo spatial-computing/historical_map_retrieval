@@ -14,7 +14,12 @@ The output will be map image (jpeg file) and its (latitude, longitude) bounding 
  
  ## Georeferencing 
  
-Run  `generate_wld_file` to generate corresponding world file and point file for jpg files. Then feed the resulting world file and jpg files to gdal to convert to geotiff files.
+Run  `generate_wld_file` to generate corresponding world file and point file for jpg files. 
+
+Put the `jpeg`,`.point` and `.wrd` into the *SAME* folder, then run `sh gdal.sh` to feed the resulting world file and jpg files to gdal to convert to geotiff files. Note that you need to change the folder name in `gdal.sh` to point to the correct folder.
+
+
+## Visualization
  
 QGIS can be used to view the geotiff file. 
 
