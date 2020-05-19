@@ -14,37 +14,46 @@ def checkBlankImg_ggl(filename):
 	input type: file path
 	return type: Boolean
 	'''
-	im = Image.open(filename) # Can be many different formats.
-	pix = im.load()
+	try:
+		im = Image.open(filename) # Can be many different formats.
+		pix = im.load()
 
-	# print im.size
-	pixel_values = list(im.getdata())
-	
-	# RGB channel
-	if min(pixel_values) == max(pixel_values):
+		# print im.size
+		pixel_values = list(im.getdata())
+		
+		# RGB channel
+		if min(pixel_values) == max(pixel_values):
+			return True
+		else:
+			return False
+	except Exception as e:
+		print e
 		return True
-
-	return False
 
 def checkBlankImg_nls(filename):
 	'''
 	input type: file path
 	return type: Boolean
 	'''
-	im = Image.open(filename)
-	pix = im.load()
+	try:
 
-	# print im.size
-	pixel_values = list(im.getdata())
-	zipped = zip(pixel_values)
+		im = Image.open(filename)
+		pix = im.load()
 
-	# RGB channel
-	if min(zipped[0][0]) == max(zipped[0][0]) \
-		and min(zipped[1][0]) == max(zipped[1][0]) \
-		and min(zipped[2][0]) == max(zipped[2][0]):
+		# print im.size
+		pixel_values = list(im.getdata())
+		zipped = zip(pixel_values)
+
+		# RGB channel
+		if min(zipped[0][0]) == max(zipped[0][0]) \
+			and min(zipped[1][0]) == max(zipped[1][0]) \
+			and min(zipped[2][0]) == max(zipped[2][0]):
+			return True
+		else:
+			return False
+	except Exception as e:
+		print e
 		return True
-
-	return False
 
 
 def store_4Geo_Boundary(lnglat_path, x, y, z):
@@ -109,10 +118,13 @@ def getImgFromUrl(url_ggl, url_nls, stored_directory, x, y, z):
 
 
 def retrieveMap_byxyz(x_start, x_end, y_start, y_end, z):
-	urlBase_osm_map = "https://b.tile.openstreetmap.org/%d/%d/%d.png"
-	urlBase_nls_map = "https://nls-1.tileserver.com/5eF1a699E49r/%d/%d/%d.jpg"
+	#urlBase_osm_map = "https://b.tile.openstreetmap.org/%d/%d/%d.png"
+	urlBase_osm_map = "https://tiles.wmflabs.org/osm-no-labels/%d/%d/%d.png"
 	
-	stored_directory = "jgw/"
+	#urlBase_nls_map = "https://nls-1.tileserver.com/5eF1a699E49r/%d/%d/%d.jpg"
+	urlBase_nls_map = "https://nls-2.tileserver.com/nls/%d/%d/%d.png"
+	
+	stored_directory = "z13/"
 	
 	for x in xrange(x_start, x_end + 1):
 		for y in xrange(y_start, y_end + 1):
@@ -143,36 +155,10 @@ def getBoundary(start_lat, end_lat, start_long, end_long, zoom):
 
 
 if __name__ == "__main__":
-	getBoundary(52.0100, 52.0500, -1.0000, -0.9500, 16)
+	
+	#getBoundary(50.600, 57.500, -6.5000, 1.7500, 9)
+	getBoundary(51.000, 53.500, -4.000, 0.000, 13) # 4004 4096 2649 2742
 	# error happens here: 32698, 21504
 	# time.sleep(0.5)
 	# getBoundary(52.5000, 53.0000, -1.0000, 1.0000, 16)
-
-'''
-F 32697 21647 16
-F 32698 21498 16
-F 32698 21499 16
-success:  32698 21500 16 (52.49615953109709, -0.384521484375)
-success:  32698 21501 16 (52.49281508540495, -0.384521484375)
-success:  32698 21502 16 (52.48947038534305, -0.384521484375)
-F 32698 21503 16
-Traceback (most recent call last):
-  File "/Users/tresgrand/Documents/Python/retrieveMap/retrieveMap_byxyz _nlsosm.py", line 146, in <module>
-    getBoundary(52.0000, 52.5000, -1.0000, 1.0000, 16)
-  File "/Users/tresgrand/Documents/Python/retrieveMap/retrieveMap_byxyz _nlsosm.py", line 141, in getBoundary
-    retrieveMap_byxyz(start_x, end_x, start_y, end_y, z)
-  File "/Users/tresgrand/Documents/Python/retrieveMap/retrieveMap_byxyz _nlsosm.py", line 123, in retrieveMap_byxyz
-    getImgFromUrl(url_osm_map, url_nls_map, stored_directory, x, y, z)
-  File "/Users/tresgrand/Documents/Python/retrieveMap/retrieveMap_byxyz _nlsosm.py", line 90, in getImgFromUrl
-    if checkBlankImg_nls(name_nls) or checkBlankImg_ggl(name_ggl):
-  File "/Users/tresgrand/Documents/Python/retrieveMap/retrieveMap_byxyz _nlsosm.py", line 17, in checkBlankImg_ggl
-    im = Image.open(filename) # Can be many different formats.
-  File "/usr/local/lib/python2.7/site-packages/PIL/Image.py", line 2256, in open
-    % (filename if filename else fp))
-IOError: cannot identify image file 'folder_16/osm_32698_21504_16.jpg'
-[Finished in 21593.4s with exit code 1]
-[shell_cmd: python -u "/Users/tresgrand/Documents/Python/retrieveMap/retrieveMap_byxyz _nlsosm.py"]
-[dir: /Users/tresgrand/Documents/Python/retrieveMap]
-[path: /Library/Frameworks/Python.framework/Versions/3.5/bin:/usr/local/opt/python/libexec/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/tresgrand/apache-maven-3.5.3/bin]
-'''
 
